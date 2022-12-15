@@ -23,6 +23,10 @@
                 country: 'France',
             }
         ];
+        
+    var searcher = new FuzzySearch(people, ['name.firstName', 'state'], {
+         caseSensitive: true,
+     });
 
     var result = searcher.search('arl');
 })();
@@ -46,12 +50,16 @@
 
 ## Documentation
 
+### FuzzySearch instance
+
 ```
     var searcher = new FuzzySearch(<haystack>, [keys], [options]);
     var result = searcher.search(<needle>);
 ```
 
-**haystack** *(type: `Array`)*
+#### Description
+
+**\<haystack\>** *(type: `Array`)*
 
 Array of objects containing the search list.
 
@@ -73,7 +81,7 @@ Object with options that will configure the search. Scroll/Swipe down to see mor
 
 The string to Fuzzy Search on.
 
-### Options
+#### Options
 
 **caseSensitive** *(type: `Boolean`, default: `false`)*
 
@@ -84,3 +92,37 @@ Indicates whether comparisons should be case sensitive.
 When `true` it will sort the results by best match (when searching for `abc` in the search set `['a__b__c', 'abc']` it would return `abc` as the first result).
 
 When `false` it will return the results in the original order.
+
+### FuzzySearch static methods
+
+```
+    var score = FuzzySearch.match(<haystack>, <needle>, [caseSensitive]);
+```
+
+#### Description
+
+Tests a string against a substring, and returns a score.
+
+**returns** *(type: `Float`)* 
+
+- If there's no match at all, returns `0`.
+- A perfect match (the two strings are identical) returns `1`.
+- Higher values are partial matches. The lower the score, the better the match.
+
+---
+
+**\<haystack\>** *(type: `String`)*
+
+The string to test.
+
+---
+
+**\<needle\>** *(type: `String`)*
+
+The substring to Fuzzy Search on.
+
+---
+
+**[caseSensitive]** *(type: `Boolean`, default: `'false'`)*
+
+Indicates whether comparisons should be case sensitive.
