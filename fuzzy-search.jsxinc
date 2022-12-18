@@ -133,6 +133,13 @@ FuzzySearch.match = function (item, query, caseSensitive) {
         return 1;
     }
 
+    // If the query is longher than the item, inverse them
+    if (query.length > item.length) {
+        var t = item;
+        item = query;
+        query = t;
+    }
+
     var indexes = FuzzySearch.nearestIndexesFor(item, query);
 
     if (!indexes) {
